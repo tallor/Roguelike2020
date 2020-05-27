@@ -1,22 +1,25 @@
 import math
 import tcod as libtcod
 
+from render_functions import RenderOrder
+
 class Entity:
     """
     A generic object to represent players, enemies, items, etc. 
     """
-    def __init__(self, x, y, char, color, name, blocks = False, fighter = None, ai = None):
+    def __init__(self, x, y, char, color, name, blocks = False, render_order = RenderOrder.CORPSE, fighter = None, ai = None):
         self.x = x
         self.y = y
         self.char = char
         self.color = color
         self.name = name
         self.blocks = blocks
+        self.render_order = render_order
         self.fighter = fighter
         self.ai = ai
 
         if self.fighter:
-            self.fighter.owner = fighter
+            self.fighter.owner = self
 
         if self.ai:
             self.ai.owner = self
@@ -80,7 +83,7 @@ class Entity:
             # Delete the path to free memory
         libtcod.path_delete(my_path)
 
-    def distance_to(self, target_x, target_y, game_map, entities):
+    def distance_to(self, other):
         dx = other.x - self.x
         dy = other.y - self.y
         return math.sqrt(dx ** 2 + dy ** 2)

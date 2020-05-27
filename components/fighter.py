@@ -18,7 +18,7 @@ class Fighter:
     def attack(self, target):
         results = []
 
-        damage = self.power - target.fight.defense 
+        damage = self.power - target.fighter.defense 
 
         if damage > 0:
             results.append({'message': '{0} attacks {1} for {2} hit points.'.format(
